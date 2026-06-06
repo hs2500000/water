@@ -8,105 +8,113 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: linear-gradient(180deg, #87CEEB 0%, #b8e994 60%, #78e08f 100%);
+  background: linear-gradient(180deg, #87CEEB 0%, #c8e6a0 55%, #7cb342 100%);
   min-height: 100vh;
   display: flex; justify-content: center; align-items: center;
-  overflow: hidden;
+  overflow-x: hidden;
   touch-action: manipulation;
+  user-select: none; -webkit-user-select: none;
 }
-.container {
-  width: 100%; max-width: 420px; min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 20px; position: relative;
-}
+.container { width: 100%; max-width: 420px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 15px; position: relative; }
 
 /* 天空 */
-.sky { position: absolute; top: 0; width: 100%; height: 40%; background: linear-gradient(180deg, #74b9ff, #a29bfe44); z-index: 0; }
-.cloud { position: absolute; background: white; border-radius: 50%; opacity: 0.8; z-index: 1; }
+.sky { position: absolute; top: 0; left: 0; width: 100%; height: 35%; background: linear-gradient(180deg, #74b9ff, transparent); z-index: 0; }
+.cloud { position: absolute; background: white; border-radius: 50%; opacity: 0.82; z-index: 1; }
 .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
-.cloud1 { width: 80px; height: 35px; top: 10%; left: 10%; animation: float 6s ease-in-out infinite; }
+.cloud1 { width: 80px; height: 35px; top: 8%; left: 8%; animation: float 6s ease-in-out infinite; }
 .cloud1::before { width: 40px; height: 40px; top: -20px; left: 10px; }
 .cloud1::after { width: 50px; height: 30px; top: -10px; left: 35px; }
-.cloud2 { width: 60px; height: 28px; top: 20%; right: 15%; animation: float 8s ease-in-out 2s infinite; }
-.cloud2::before { width: 35px; height: 32px; top: -15px; left: 5px; }
-.cloud2::after { width: 40px; height: 25px; top: -8px; left: 25px; }
-@keyframes float { 0%,100% { transform: translateX(0); } 50% { transform: translateX(15px); } }
+.cloud2 { width: 55px; height: 25px; top: 16%; right: 10%; animation: float 8s ease-in-out 2s infinite; }
+.cloud2::before { width: 30px; height: 28px; top: -12px; left: 5px; }
+.cloud2::after { width: 36px; height: 22px; top: -7px; left: 22px; }
+@keyframes float { 0%,100% { transform: translateX(0); } 50% { transform: translateX(18px); } }
 
-/* 农场 */
-.farm { position: relative; z-index: 2; width: 100%; text-align: center; margin-top: 30px; }
-.farm-title { font-size: 26px; font-weight: bold; color: #2d3436; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(255,255,255,0.5); }
-.farm-subtitle { font-size: 13px; color: #636e72; margin-bottom: 25px; }
-.sun { font-size: 60px; position: absolute; top: -10px; right: 30px; animation: pulse 2s ease-in-out infinite; }
-@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+/* 标题 */
+.header { position: relative; z-index: 2; text-align: center; margin-bottom: 8px; }
+.header .sun { font-size: 45px; display: inline-block; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+.title { font-size: 26px; font-weight: 900; color: #2d3436; text-shadow: 2px 2px 0 rgba(255,255,255,0.7); }
+.subtitle { font-size: 13px; color: #636e72; }
 
 /* 菜地 */
 .garden {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
-  background: #8B6914; border-radius: 20px; padding: 25px 20px;
-  margin: 15px 0 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  border: 4px solid #6B4F12; position: relative;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  background: linear-gradient(180deg, #A0522D, #8B4513);
+  border-radius: 14px; padding: 18px 12px; margin: 10px 0 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.22), inset 0 2px 4px rgba(255,255,255,0.08);
+  border: 3px solid #6B3410; position: relative; width: 100%;
+  transition: transform 0.3s ease;
 }
-.garden::after { content: '🏠 王者农场'; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #2d3436; white-space: nowrap; }
-.crop {
-  background: #5D3A1A; border-radius: 12px; padding: 15px 8px;
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
-  border: 2px solid #4A2E12; position: relative;
+.garden.shake { animation: gShake 0.45s ease; }
+@keyframes gShake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px) rotate(-0.5deg); }
+  50% { transform: translateX(6px) rotate(0.5deg); }
+  75% { transform: translateX(-3px); }
 }
-.crop-icon { font-size: 40px; transition: all 0.3s; }
-.crop.dry .crop-icon { filter: grayscale(0.3) brightness(0.8); animation: shake 2s ease-in-out infinite; }
-.crop.watered .crop-icon { filter: none; }
-@keyframes shake { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-3deg); } 75% { transform: rotate(3deg); } }
-.crop-name { font-size: 11px; color: #dfe6e9; }
-.crop-status { font-size: 10px; padding: 2px 8px; border-radius: 10px; }
-.crop.dry .crop-status { background: #ff7675; color: white; }
-.crop.watered .crop-status { background: #00b894; color: white; }
+.garden-bottom { text-align: center; font-size: 11px; color: #5D4037; font-weight: bold; margin-top: -8px; margin-bottom: 4px; }
 
-/* 按钮 */
-.btn-container { position: relative; z-index: 10; width: 100%; display: flex; justify-content: center; min-height: 60px; }
+.crop {
+  background: linear-gradient(180deg, #6B3410, #4E2800);
+  border-radius: 10px; padding: 10px 5px 8px; display: flex;
+  flex-direction: column; align-items: center; gap: 3px;
+  border: 2px solid #3E1F00; position: relative;
+  transition: all 0.35s ease; box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+.crop.dry { border-color: #d63031; }
+.crop.watered { background: linear-gradient(180deg, #388E3C, #2E7D32); border-color: #66BB6A; box-shadow: 0 0 12px rgba(76,175,80,0.45); }
+.crop .icon { font-size: 36px; transition: all 0.3s; }
+.crop.dry .icon { filter: grayscale(0.5) brightness(0.75); animation: wilt 2s ease-in-out infinite; }
+@keyframes wilt { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(-4deg); } 70% { transform: rotate(4deg); } }
+.crop.watered .icon { filter: none; animation: popIn 0.5s ease; }
+@keyframes popIn { 0% { transform: scale(1); } 50% { transform: scale(1.25); } 100% { transform: scale(1); } }
+.crop .name { font-size: 10px; color: #ddd; font-weight: bold; }
+.crop .status { font-size: 9px; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+.crop.dry .status { background: #ff5252; color: #fff; animation: blink 1s ease-in-out infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+.crop.watered .status { background: #00C853; color: #fff; }
+
+/* 按钮区 */
+.btn-zone { position: relative; z-index: 10; width: 100%; height: 130px; overflow: hidden; }
 .water-btn {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   background: linear-gradient(135deg, #00b894, #00cec9);
-  color: white; font-size: 20px; font-weight: bold;
+  color: white; font-size: 19px; font-weight: 900;
   padding: 15px 40px; border: none; border-radius: 50px;
-  cursor: pointer; box-shadow: 0 8px 25px rgba(0,184,148,0.4);
-  transition: all 0.15s ease; position: relative;
+  cursor: pointer; box-shadow: 0 8px 28px rgba(0,184,148,0.4);
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   white-space: nowrap; touch-action: manipulation;
   user-select: none; -webkit-tap-highlight-color: transparent;
+  letter-spacing: 1px; z-index: 10;
 }
-.water-btn:active { transform: scale(0.95); box-shadow: 0 4px 15px rgba(0,184,148,0.3); }
-.water-btn.dodging { animation: dodge 0.3s ease; }
-@keyframes dodge { 0% { transform: translateX(0) rotate(0); } 30% { transform: translateX(-30px) rotate(-5deg); } 60% { transform: translateX(40px) rotate(3deg); } 100% { transform: translateX(0) rotate(0); } }
+.water-btn:active { transform: translate(-50%, -50%) scale(0.9); }
 
-/* 消息 */
-.msg { margin-top: 15px; font-size: 15px; color: #2d3436; font-weight: bold; text-align: center; min-height: 25px; z-index: 2; }
-.msg .counter { font-size: 12px; color: #636e72; margin-top: 5px; }
+/* 消息区 */
+.msg-box { text-align: center; min-height: 60px; margin-top: 8px; z-index: 2; }
+.msg-box .big { font-size: 22px; font-weight: 900; display: block; margin-bottom: 3px; }
+.msg-box .sub { font-size: 12px; color: #636e72; }
 
-/* 粒子 */
-.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
-.particle { position: absolute; font-size: 20px; animation: flyUp 1s ease-out forwards; }
-@keyframes flyUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-80px) scale(0.5); } }
-
-/* 最终胜利弹窗 */
-.win-overlay {
-  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6); z-index: 200;
-  justify-content: center; align-items: center;
+/* 特效 */
+.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 200; }
+.particle { position: absolute; font-size: 22px; animation: flyUp 1s ease-out forwards; }
+@keyframes flyUp {
+  0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(-100px) scale(0.3) rotate(180deg); }
 }
+
+/* 胜利 */
+.win-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 400; justify-content: center; align-items: center; }
 .win-overlay.show { display: flex; }
 .win-dialog {
   background: white; border-radius: 20px; padding: 30px; text-align: center;
   max-width: 320px; width: 90%; animation: bounceIn 0.5s ease;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
 }
-@keyframes bounceIn {
-  0% { transform: scale(0.3); opacity: 0; }
-  50% { transform: scale(1.05); }
-  70% { transform: scale(0.95); }
-  100% { transform: scale(1); opacity: 1; }
-}
+@keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
 .win-icon { font-size: 60px; margin-bottom: 15px; }
 .win-text { font-size: 18px; font-weight: bold; color: #2d3436; margin-bottom: 10px; }
-.win-sub { font-size: 13px; color: #636e72; margin-bottom: 20px; }
-.win-close { background: #00b894; color: white; border: none; padding: 10px 30px; border-radius: 30px; font-size: 16px; cursor: pointer; }
+.win-sub { font-size: 13px; color: #636e72; margin-bottom: 20px; line-height: 1.5; }
+.win-close { background: #e17055; color: white; border: none; padding: 12px 35px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -116,179 +124,141 @@ body {
   <div class="cloud cloud1"></div>
   <div class="cloud cloud2"></div>
 
-  <div class="farm">
+  <div class="header">
     <div class="sun">☀️</div>
-    <div class="farm-title">🌾 王者农场</div>
-    <div class="farm-subtitle">你的菜快渴死了！赶紧浇水！</div>
-
-    <div class="garden" id="garden">
-      <div class="crop dry" data-crop="0">
-        <span class="crop-icon">🥬</span>
-        <span class="crop-name">小乔的菠菜</span>
-        <span class="crop-status">💧缺水</span>
-      </div>
-      <div class="crop dry" data-crop="1">
-        <span class="crop-icon">🌶️</span>
-        <span class="crop-name">鲁班的辣椒</span>
-        <span class="crop-status">💧缺水</span>
-      </div>
-      <div class="crop dry" data-crop="2">
-        <span class="crop-icon">🍆</span>
-        <span class="crop-name">貂蝉的茄子</span>
-        <span class="crop-status">💧缺水</span>
-      </div>
-      <div class="crop dry" data-crop="3">
-        <span class="crop-icon">🌽</span>
-        <span class="crop-name">程咬金的玉米</span>
-        <span class="crop-status">💧缺水</span>
-      </div>
-      <div class="crop dry" data-crop="4">
-        <span class="crop-icon">🍅</span>
-        <span class="crop-name">安琪拉的番茄</span>
-        <span class="crop-status">💧缺水</span>
-      </div>
-      <div class="crop dry" data-crop="5">
-        <span class="crop-icon">🥕</span>
-        <span class="crop-name">狄仁杰的萝卜</span>
-        <span class="crop-status">💧缺水</span>
-      </div>
-    </div>
+    <div class="title">🌾 王者农场</div>
+    <div class="subtitle">你的菜快渴死了！赶紧浇水 👇</div>
   </div>
 
-  <div class="btn-container" id="btnContainer">
-    <button class="water-btn" id="waterBtn" onclick="tryWater()">💧 点击浇水</button>
+  <div class="garden" id="garden">
+    <div class="crop dry"><span class="icon">🥬</span><span class="name">小乔的菠菜</span><span class="status">🔥 枯了</span></div>
+    <div class="crop dry"><span class="icon">🌶️</span><span class="name">鲁班的辣椒</span><span class="status">🔥 枯了</span></div>
+    <div class="crop dry"><span class="icon">🍆</span><span class="name">貂蝉的茄子</span><span class="status">🔥 枯了</span></div>
+    <div class="crop dry"><span class="icon">🌽</span><span class="name">程咬金的玉米</span><span class="status">🔥 枯了</span></div>
+    <div class="crop dry"><span class="icon">🍅</span><span class="name">安琪拉的番茄</span><span class="status">🔥 枯了</span></div>
+    <div class="crop dry"><span class="icon">🥕</span><span class="name">狄仁杰的萝卜</span><span class="status">🔥 枯了</span></div>
+  </div>
+  <div class="garden-bottom">🏠 王者农场 · 菜地</div>
+
+  <div class="btn-zone" id="btnZone">
+    <button class="water-btn" onclick="tryWater()">💧 点击浇水</button>
   </div>
 
-  <div class="msg" id="msg"></div>
-
-  <div id="particles" class="particles"></div>
+  <div class="msg-box" id="msgBox">
+    <span class="big" style="color:#2d3436">🌱 菜地干旱！快浇水！</span>
+  </div>
 </div>
+
+<div id="particles" class="particles"></div>
 
 <div class="win-overlay" id="winOverlay">
   <div class="win-dialog">
     <div class="win-icon">🎉</div>
-    <div class="win-text">你终于浇上水了！</div>
+    <div class="win-text">终于浇上了！</div>
     <div class="win-sub" id="winStats"></div>
     <button class="win-close" onclick="closeWin()">😤 算你狠</button>
   </div>
 </div>
 
 <script>
-const msgs = [
-  "🤔 浇水失败！水壶跑偏了...",
-  "🫣 诶？水怎么浇到地上了？",
-  "😤 偏不浇！你再点试试？",
-  "🏃 水壶：我跑了，你追啊！",
-  "🙈 浇不到浇不到~",
-  "😈 今日不宜浇水，明天再来",
-  "🤪 你的菜：算了吧，我还能撑",
-  "💨 手速不够快哦~",
-  "😏 浇水申请已收到，不予批准",
-  "🫠 服务器繁忙，请稍后再试",
-  "🤡 水壶离家出走了！",
-  "👻 你以为你能浇到？",
-  "😴 太累了，水壶在睡觉",
-  "🦥 浇...水...速...度...太...慢",
-  "🤯 系统检测到恶意浇水行为"
-];
+const btn = document.querySelector('.water-btn');
+const btnZone = document.getElementById('btnZone');
+const garden = document.getElementById('garden');
+const msgBox = document.getElementById('msgBox');
 
 let attempts = 0;
-let wateringDone = false;
+let done = false;
 
-function getRandomMsg() {
-  return msgs[Math.floor(Math.random() * msgs.length)];
+const taunts = [
+  '<span style="font-size:40px">😝</span><br>浇不到！气不气？',
+  '<span style="font-size:40px">😈</span><br>嘿嘿~偏不浇！',
+  '<span style="font-size:40px">🫣</span><br>诶？水壶跑偏了！',
+  '<span style="font-size:40px">😜</span><br>你再点试试？浇不到~',
+  '<span style="font-size:40px">🤪</span><br>手速不够快啊朋友！',
+  '<span style="font-size:40px">😏</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次了，还不放弃？',
+  '<span style="font-size:40px">🤡</span><br>水壶：我先溜了！',
+  '<span style="font-size:40px">👻</span><br>你以为你是闪电侠？',
+  '<span style="font-size:40px">😈</span><br>就是不浇！你叫你闺蜜来啊~',
+  '<span style="font-size:40px">😬</span><br>菜：救命...算了不指望了',
+  '<span style="font-size:40px">🫠</span><br>服务器繁忙，浇水失败',
+  '<span style="font-size:40px">😤</span><br>你越点我越跑！',
+  '<span style="font-size:40px">🥱</span><br>浇太快了，重来~',
+  '<span style="font-size:40px">🙈</span><br>浇不到浇不到~ 就浇不到~',
+  '<span style="font-size:40px">💨</span><br>你追啊！追到了给你浇！',
+];
+
+function updateMsg(html) {
+  msgBox.innerHTML = '<span class="big">' + html + '</span>';
+  if (attempts > 0 && !done) {
+    msgBox.innerHTML += '<span class="sub" style="color:#e17055;font-size:14px;font-weight:bold">已尝试 <b style="font-size:20px">' + attempts + '</b> 次浇水 | 成功率 <b>0%</b> 😈</span>';
+  }
 }
 
-function createParticles(x, y) {
-  const container = document.getElementById('particles');
-  const emojis = ['💧', '😢', '💦', '😅', '😂'];
-  for (let i = 0; i < 6; i++) {
+function particles(x, y) {
+  const c = document.getElementById('particles');
+  for (let i = 0; i < 8; i++) {
     const p = document.createElement('span');
     p.className = 'particle';
-    p.textContent = emojis[i % emojis.length];
-    p.style.left = (x + (Math.random() - 0.5) * 60) + 'px';
+    p.textContent = ['💧','💦','😱','😈','😂','😤','🫠','🤬'][i % 8];
+    p.style.left = (x + (Math.random() - 0.5) * 90) + 'px';
     p.style.top = y + 'px';
     p.style.animationDuration = (0.6 + Math.random() * 0.8) + 's';
-    p.style.animationDelay = (Math.random() * 0.3) + 's';
-    container.appendChild(p);
+    document.getElementById('particles').appendChild(p);
     setTimeout(() => p.remove(), 1500);
   }
 }
 
-function moveButton() {
-  const container = document.getElementById('btnContainer');
-  const btn = document.getElementById('waterBtn');
-  const maxMove = container.offsetWidth - btn.offsetWidth;
-  if (maxMove <= 0) return;
-
-  let x, y;
-  // Move to random position
-  const rect = container.getBoundingClientRect();
-  const btnRect = btn.getBoundingClientRect();
-
-  // Random offset within container
-  x = Math.max(-50, Math.min(maxMove + 50, (Math.random() - 0.5) * maxMove * 1.5));
-  y = (Math.random() - 0.5) * 40;
-
-  btn.style.transform = `translate(${x}px, ${y}px)`;
-  btn.classList.add('dodging');
-  setTimeout(() => btn.classList.remove('dodging'), 300);
+function dodge() {
+  const w = btnZone.offsetWidth - btn.offsetWidth;
+  const h = btnZone.offsetHeight - btn.offsetHeight;
+  const x = Math.max(0, Math.min(w, Math.random() * w));
+  const y = Math.max(0, Math.min(h, Math.random() * h));
+  btn.style.left = x + 'px';
+  btn.style.top = y + 'px';
+  btn.style.transform = 'none';
 }
 
-function updateMsg(text, showCounter = true) {
-  const el = document.getElementById('msg');
-  let html = text;
-  if (showCounter) {
-    html += `<br><span class="counter">已尝试 ${attempts} 次浇水 | 成功率 0%</span>`;
-  }
-  el.innerHTML = html;
-}
-
-function waterOneCrop() {
+function waterOne() {
   const dry = document.querySelectorAll('.crop.dry');
   if (dry.length > 0) {
-    const crop = dry[Math.floor(Math.random() * dry.length)];
-    crop.classList.remove('dry');
-    crop.classList.add('watered');
-    crop.querySelector('.crop-status').textContent = '✅ 已浇';
+    const c = dry[Math.floor(Math.random() * dry.length)];
+    c.classList.remove('dry'); c.classList.add('watered');
+    c.querySelector('.status').textContent = '✅ 活了';
   }
 }
 
 function tryWater() {
-  if (wateringDone) return;
-
+  if (done) return;
   attempts++;
-  const btn = document.getElementById('waterBtn');
-  const btnRect = btn.getBoundingClientRect();
 
-  // Create particles at button position
-  createParticles(btnRect.left + btnRect.width / 2, btnRect.top);
+  const rect = btn.getBoundingClientRect();
+  particles(rect.left + rect.width / 2, rect.top);
+  dodge();
 
-  if (attempts < 20) {
-    // Dodge!
-    moveButton();
-    updateMsg(getRandomMsg());
-  } else if (attempts < 25) {
-    // Start watering but still dodging
-    moveButton();
-    const fake = ["💧 浇到一半...水壶又跑了！", "😤 浇了！但是只浇到一颗...", "🤏 快了！差一点点！"];
-    updateMsg(fake[Math.floor(Math.random() * fake.length)]);
-    if (attempts % 2 === 0) waterOneCrop();
-  } else {
-    // Finally give in
-    wateringDone = true;
-    btn.style.transform = 'translate(0, 0)';
+  const t = taunts[Math.floor(Math.random() * taunts.length)].replace('{n}', attempts);
+  updateMsg(t);
+
+  // Shake garden every few attempts
+  if (attempts % 4 === 0) { garden.classList.add('shake'); setTimeout(() => garden.classList.remove('shake'), 450); }
+
+  // Phase: start giving in after 18 attempts
+  if (attempts >= 18 && attempts < 25) {
+    if (attempts % 2 === 0) waterOne();
+    if (attempts % 3 === 0) {
+      updateMsg('<span style="font-size:40px">😤</span><br>行吧...浇了一颗<br>但我又跑了！');
+    }
+  } else if (attempts >= 25) {
+    done = true;
+    btn.style.left = '50%'; btn.style.top = '50%'; btn.style.transform = 'translate(-50%, -50%)';
+    btn.textContent = '✅ 浇水完成';
+    btn.style.background = 'linear-gradient(135deg, #00b894, #55efc4)';
     document.querySelectorAll('.crop').forEach(c => {
-      c.classList.remove('dry');
-      c.classList.add('watered');
-      c.querySelector('.crop-status').textContent = '✅ 已浇';
+      c.classList.remove('dry'); c.classList.add('watered');
+      c.querySelector('.status').textContent = '✅ 活了';
     });
-    updateMsg('✅ 浇水成功！你的菜终于得救了！🥳', false);
-
-    // Show win dialog
+    updateMsg('<span style="font-size:40px">🎉</span><br>浇水成功！<br>你点了 <b style="color:#e17055;font-size:28px">' + attempts + '</b> 次终于浇上了！');
     setTimeout(() => {
-      document.getElementById('winStats').textContent =
-        `你点了 ${attempts} 次，终于浇上了。\n菜都快被你点死了...`;
+      document.getElementById('winStats').innerHTML = '你点了 <b style="color:#e17055;font-size:24px">' + attempts + '</b> 次<br>菜都快被你戳死了 😈<br><br>毅力惊人！水壶认输了...';
       document.getElementById('winOverlay').classList.add('show');
     }, 800);
   }
@@ -296,37 +266,24 @@ function tryWater() {
 
 function closeWin() {
   document.getElementById('winOverlay').classList.remove('show');
-  // Reset for another round
   setTimeout(() => {
-    attempts = 0;
-    wateringDone = false;
-    document.getElementById('waterBtn').style.transform = 'translate(0, 0)';
+    attempts = 0; done = false;
+    btn.style.left = '50%'; btn.style.top = '50%'; btn.style.transform = 'translate(-50%, -50%)';
+    btn.textContent = '💧 点击浇水';
+    btn.style.background = 'linear-gradient(135deg, #00b894, #00cec9)';
     document.querySelectorAll('.crop').forEach(c => {
-      c.classList.remove('watered');
-      c.classList.add('dry');
-      c.querySelector('.crop-status').textContent = '💧缺水';
+      c.classList.remove('watered'); c.classList.add('dry');
+      c.querySelector('.status').textContent = '🔥 枯了';
     });
-    updateMsg('');
+    updateMsg('🌱 菜地干旱！快浇水！');
   }, 500);
 }
 
-// Touch support for mobile
-document.getElementById('waterBtn').addEventListener('touchstart', function(e) {
-  e.preventDefault();
-  tryWater();
-});
+// Touch support
+btn.addEventListener('touchstart', function(e) { e.preventDefault(); tryWater(); });
 
-// Random subtle button movement on hover (desktop)
-document.getElementById('waterBtn').addEventListener('mouseenter', function() {
-  if (!wateringDone && attempts > 0 && Math.random() > 0.5) {
-    moveButton();
-  }
-});
-
-// Initial message
-setTimeout(() => {
-  updateMsg('🌱 菜地干旱！快点击浇水！', false);
-}, 500);
+// Reset counter
+updateMsg('🌱 菜地干旱！快浇水！');
 </script>
 </body>
 </html>
