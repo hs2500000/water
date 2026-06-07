@@ -6,7 +6,7 @@
 <title>王者农场 🌱 浇水大作战</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
+html,body{height:100%;overflow-x:hidden}
 body{
   font-family:'PingFang SC','Microsoft YaHei',sans-serif;
   background:linear-gradient(180deg,#87CEEB 0%,#c8e6a0 55%,#7cb342 100%);
@@ -16,7 +16,7 @@ body{
   -webkit-tap-highlight-color:transparent;
   -webkit-touch-callout:none;
 }
-.container{width:100%;max-width:420px;height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 15px;position:relative}
+.container{width:100%;max-width:420px;min-height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 15px;position:relative}
 
 .sky{position:absolute;top:0;left:0;width:100%;height:35%;background:linear-gradient(180deg,#74b9ff,transparent);z-index:0}
 .cloud{position:absolute;background:#fff;border-radius:50%;opacity:.82;z-index:1}
@@ -29,16 +29,70 @@ body{
 .cloud2::after{width:36px;height:22px;top:-7px;left:22px}
 @keyframes float{0%,100%{transform:translateX(0)}50%{transform:translateX(18px)}}
 
-.header{position:relative;z-index:2;text-align:center;margin-bottom:8px}
-.header .sun{font-size:45px;display:inline-block;animation:pulse 2s ease-in-out infinite}
+.header{position:relative;z-index:2;text-align:center;margin-bottom:6px}
+.header .sun{font-size:42px;display:inline-block;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 .title{font-size:26px;font-weight:900;color:#2d3436;text-shadow:2px 2px 0 rgba(255,255,255,.7)}
-.subtitle{font-size:13px;color:#636e72}
+
+/* 🔥 末世警告横幅 */
+.doomsday-banner{
+  display:inline-block;
+  background:linear-gradient(90deg,#d63031,#e17055,#d63031);
+  background-size:200% auto;
+  color:#fff;
+  padding:7px 18px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+  animation:doomShine 2s ease-in-out infinite;
+  letter-spacing:2px;
+  margin-top:4px;
+  box-shadow:0 0 16px rgba(214,48,49,.6);
+}
+@keyframes doomShine{
+  0%,100%{box-shadow:0 0 10px rgba(214,48,49,.5);background-position:0% center}
+  50%{box-shadow:0 0 25px rgba(214,48,49,.9);background-position:100% center}
+}
+
+/* 📜 背景故事 */
+.backstory-box{
+  position:relative;z-index:2;
+  background:rgba(0,0,0,.75);
+  border-left:4px solid #ff5252;
+  border-radius:6px;
+  padding:10px 14px;
+  margin:0 4px 8px;
+  max-width:380px;
+}
+.backstory-box p{
+  color:#f0f0f0;
+  font-size:14px;
+  line-height:1.7;
+  margin:0;
+  font-weight:500;
+}
+.backstory-box .highlight{color:#ff7675;font-weight:bold}
+.backstory-box .doom-highlight{
+  color:#ffeaa7;
+  font-weight:900;
+  text-shadow:0 0 8px rgba(255,234,167,.5);
+}
+
+/* 🔊 语音按钮 */
+.voice-toggle{
+  position:fixed;top:12px;right:12px;z-index:500;
+  background:rgba(0,0,0,.55);color:#fff;
+  border:1px solid rgba(255,255,255,.2);border-radius:20px;
+  padding:7px 14px;font-size:12px;cursor:pointer;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  transition:all .2s;
+}
+.voice-toggle.on{background:rgba(0,184,148,.6);border-color:rgba(0,255,200,.4)}
 
 .garden{
   display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
   background:linear-gradient(180deg,#A0522D,#8B4513);
-  border-radius:14px;padding:18px 12px;margin:10px 0 14px;
+  border-radius:14px;padding:18px 12px;margin:8px 0 12px;
   box-shadow:0 8px 30px rgba(0,0,0,.22),inset 0 2px 4px rgba(255,255,255,.08);
   border:3px solid #6B3410;position:relative;width:100%
 }
@@ -49,7 +103,13 @@ body{
   50%{transform:translateX(6px) rotate(.5deg)}
   75%{transform:translateX(-3px)}
 }
-.garden-bottom{text-align:center;font-size:11px;color:#5D4037;font-weight:bold;margin-top:-8px;margin-bottom:4px}
+.garden-bottom{text-align:center;font-size:12px;color:#fff;font-weight:bold;margin-top:-8px;margin-bottom:4px;text-shadow:0 0 10px rgba(255,82,82,.6);letter-spacing:1px}
+
+/* 📊 进度条 */
+.progress-wrap{width:100%;position:relative;z-index:2;margin-bottom:2px}
+.progress-label{display:flex;justify-content:space-between;font-size:10px;color:#5D4037;font-weight:bold;margin-bottom:2px}
+.progress-bar{width:100%;height:6px;background:rgba(0,0,0,.15);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#e17055,#d63031);transition:width .3s;width:0%;border-radius:3px}
 
 .crop{
   background:linear-gradient(180deg,#6B3410,#4E2800);
@@ -82,9 +142,7 @@ body{
   white-space:nowrap;
   -webkit-tap-highlight-color:transparent;
   letter-spacing:1px;z-index:10;
-  cursor:pointer;
-  outline:none;
-  -webkit-appearance:none;
+  cursor:pointer;outline:none;-webkit-appearance:none;
 }
 
 .msg-box{text-align:center;min-height:60px;margin-top:8px;z-index:2}
@@ -98,18 +156,25 @@ body{
   100%{opacity:0;transform:translateY(-100px) scale(.3) rotate(180deg)}
 }
 
-.win-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:400;justify-content:center;align-items:center}
+.win-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);z-index:400;justify-content:center;align-items:center}
 .win-overlay.show{display:flex}
 .win-dialog{
-  background:#fff;border-radius:20px;padding:30px;text-align:center;
-  max-width:320px;width:90%;animation:bounceIn .5s ease;
-  box-shadow:0 20px 60px rgba(0,0,0,.3)
+  background:linear-gradient(180deg,#1a1a2e,#16213e);
+  border-radius:20px;padding:30px;text-align:center;
+  max-width:340px;width:90%;animation:bounceIn .5s ease;
+  box-shadow:0 0 60px rgba(214,48,49,.3);
+  border:1px solid rgba(255,255,255,.1);
 }
 @keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
 .win-icon{font-size:60px;margin-bottom:15px}
-.win-text{font-size:18px;font-weight:bold;color:#2d3436;margin-bottom:10px}
-.win-sub{font-size:13px;color:#636e72;margin-bottom:20px;line-height:1.5}
-.win-close{background:#e17055;color:#fff;border:none;padding:12px 35px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer;-webkit-appearance:none}
+.win-text{font-size:22px;font-weight:900;color:#ffeaa7;margin-bottom:10px;text-shadow:0 0 20px rgba(255,234,167,.5)}
+.win-sub{font-size:14px;color:#dfe6e9;margin-bottom:20px;line-height:1.7}
+.win-close{
+  background:linear-gradient(135deg,#d63031,#e17055);
+  color:#fff;border:none;padding:12px 35px;border-radius:30px;
+  font-size:16px;font-weight:bold;cursor:pointer;-webkit-appearance:none;
+  box-shadow:0 4px 15px rgba(214,48,49,.4);
+}
 </style>
 </head>
 <body>
@@ -122,7 +187,15 @@ body{
   <div class="header">
     <div class="sun">☀️</div>
     <div class="title">🌾 王者农场</div>
-    <div class="subtitle">你的菜快渴死了！赶紧浇水 👇</div>
+    <div class="doomsday-banner">⚠️ 距极寒末世还有 <b id="countdownDays">7</b> 天 ⚠️</div>
+  </div>
+
+  <div class="backstory-box">
+    <p>
+    「他们笑我<span class="highlight">魔怔种菜</span>…只有我知道，<span class="doom-highlight">七天</span>后暴雪封城、水电断绝、秩序崩塌。<br>
+    超市货架会被<span class="highlight">洗劫一空</span>，高楼冻成冰雕——而我种的每一颗菜，<br>
+    都是末世里<span class="doom-highlight">活下去的希望</span>。」
+    </p>
   </div>
 
   <div class="garden" id="garden">
@@ -133,14 +206,19 @@ body{
     <div class="crop dry"><span class="icon">🍅</span><span class="name">安琪拉的番茄</span><span class="status">🔥 枯了</span></div>
     <div class="crop dry"><span class="icon">🥕</span><span class="name">狄仁杰的萝卜</span><span class="status">🔥 枯了</span></div>
   </div>
-  <div class="garden-bottom">🏠 王者农场 · 菜地</div>
+  <div class="garden-bottom">🏠 王者农场 · 末世物资储备站</div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>❄️ 囤粮进度</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
 
   <div class="btn-zone" id="btnZone">
     <button class="water-btn" id="waterBtn">💧 点击浇水</button>
   </div>
 
   <div class="msg-box" id="msgBox">
-    <span class="big" style="color:#2d3436">🌱 菜地干旱！快浇水！</span>
+    <span class="big" style="color:#2d3436">❄️ 极寒还有7天！赶紧囤粮！</span>
   </div>
 </div>
 
@@ -149,11 +227,13 @@ body{
 <div class="win-overlay" id="winOverlay">
   <div class="win-dialog">
     <div class="win-icon">🎉</div>
-    <div class="win-text">终于浇上了！</div>
+    <div class="win-text">🔥 末世储备粮已入库！</div>
     <div class="win-sub" id="winStats"></div>
     <button class="win-close" id="winClose">😤 算你狠</button>
   </div>
 </div>
+
+<button class="voice-toggle on" id="voiceToggle" title="切换语音播报">🔊 语音中</button>
 
 <script>
 (function(){
@@ -165,10 +245,59 @@ const particlesBox=document.getElementById('particles');
 const winOverlay=document.getElementById('winOverlay');
 const winStats=document.getElementById('winStats');
 const winClose=document.getElementById('winClose');
+const progressFill=document.getElementById('progressFill');
+const progressPct=document.getElementById('progressPct');
+const countdownDays=document.getElementById('countdownDays');
+const voiceToggle=document.getElementById('voiceToggle');
 
-let attempts=0,done=false;
+const VICTORY=200;
+let attempts=0,done=false,voiceOn=true,voiceStarted=false;
 
-const taunts=[
+// 🔊 语音播报
+function speak(text,rate){
+  if(!voiceOn)return;
+  speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang='zh-CN';
+  u.rate=rate||0.9;
+  u.pitch=1;
+  u.volume=0.9;
+  speechSynthesis.speak(u);
+}
+
+voiceToggle.addEventListener('pointerdown',function(e){
+  e.preventDefault();e.stopPropagation();
+  voiceOn=!voiceOn;
+  if(voiceOn){
+    voiceToggle.textContent='🔊 语音中';
+    voiceToggle.classList.add('on');
+  }else{
+    voiceToggle.textContent='🔇 已静音';
+    voiceToggle.classList.remove('on');
+    speechSynthesis.cancel();
+  }
+});
+
+// 📖 背景故事（首次点击触发，避开浏览器autoplay限制）
+var backstoryText='他们笑我魔怔种菜。只有我知道，七天后暴雪封城、水电断绝、秩序崩塌。超市货架会被洗劫一空，高楼冻成冰雕。而我种的每一颗菜，都是末世里活下去的希望。';
+
+// 里程碑语音
+var milestoneVoices={
+  50:'五十次了。他们以为你在玩游戏，但你知道真相。极寒越来越近，继续浇水。',
+  100:'一百次了！暴雪将至，你不能放弃。那些嘲笑你的人，终将明白你的远见。',
+  150:'一百五十次！囤粮进度百分之七十五。极寒降临前，你必须浇完所有菜。',
+  180:'一百八十次！就差一点了！末世降临前，每一颗菜都是救命粮！',
+  190:'一百九十次！你听，暴风雪已经在路上。他们笑你疯，你笑他们看不清未来。'
+};
+
+function speakMilestone(n){
+  if(milestoneVoices[n])speak(milestoneVoices[n],0.85);
+}
+
+var lastMilestone=0;
+
+// 嘲讽文案池
+var taunts=[
   '<span style="font-size:40px">😝</span><br>浇不到！气不气？',
   '<span style="font-size:40px">😈</span><br>嘿嘿~偏不浇！',
   '<span style="font-size:40px">🫣</span><br>诶？水壶跑偏了！',
@@ -178,27 +307,72 @@ const taunts=[
   '<span style="font-size:40px">🤡</span><br>水壶：我先溜了！',
   '<span style="font-size:40px">👻</span><br>你以为你是闪电侠？',
   '<span style="font-size:40px">😈</span><br>就是不浇！你叫你闺蜜来啊~',
-  '<span style="font-size:40px">😬</span><br>菜：救命...算了不指望了',
-  '<span style="font-size:40px">🫠</span><br>服务器繁忙，浇水失败',
-  '<span style="font-size:40px">😤</span><br>你越点我越跑！',
+  '<span style="font-size:40px">😬</span><br>菜：末世快到了...还不浇水？',
+  '<span style="font-size:40px">🥶</span><br>极寒将至！你手抖是因为冷还是气？',
+  '<span style="font-size:40px">🫠</span><br>暴雪要来了！水壶冻住了！',
+  '<span style="font-size:40px">😤</span><br>你越点我越跑！他们笑你疯，你不解释',
   '<span style="font-size:40px">🥱</span><br>浇太快了，重来~',
   '<span style="font-size:40px">🙈</span><br>浇不到浇不到~ 就浇不到~',
-  '<span style="font-size:40px">💨</span><br>你追啊！追到了给你浇！'
+  '<span style="font-size:40px">💨</span><br>你追啊！追到了给你浇！',
+  '<span style="font-size:40px">❄️</span><br>暴风雪来了！水都结冰了！',
+  '<span style="font-size:40px">🧊</span><br>冰封中...你的手指还能动？',
+  '<span style="font-size:40px">🌨️</span><br>雪越下越大，菜要冻死了！',
+  '<span style="font-size:40px">😰</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！末世都快到了你还在点？',
+  '<span style="font-size:40px">🔥</span><br>那些笑你的人已经在囤泡面了，你还在浇水？',
+  '<span style="font-size:40px">⏰</span><br>倒计时在走，你的菜还没浇完！'
+];
+
+// Phase 2 (100-149) 专用嘲讽
+var phase2Taunts=[
+  '<span style="font-size:40px">😟</span><br>一百多次了...你到底图什么？',
+  '<span style="font-size:40px">🤔</span><br>说实话我开始佩服你了...但不浇就是不浇',
+  '<span style="font-size:40px">😬</span><br>你该不会真的相信末世会来吧？',
+  '<span style="font-size:40px">🫤</span><br>好吧好吧...偶尔浇一颗，别太高兴',
+  '<span style="font-size:40px">😮‍💨</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次...你是AI吧？',
+];
+
+// Phase 3 (150-179) 专用嘲讽
+var phase3Taunts=[
+  '<span style="font-size:40px">😳</span><br>水壶累了...它说它认输',
+  '<span style="font-size:40px">😩</span><br>你不知道放弃两个字怎么写吗？',
+  '<span style="font-size:40px">🤯</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！你是来真的？',
+  '<span style="font-size:40px">🥵</span><br>暴雪前能浇完吗...我有点慌了',
+  '<span style="font-size:40px">🫡</span><br>我承认你有点东西...但还不够！',
+];
+
+// Phase 4 (180-199) 专用嘲讽
+var phase4Taunts=[
+  '<span style="font-size:40px">😱</span><br>快到了快到了！别停！',
+  '<span style="font-size:40px">🫨</span><br>水壶：主人我错了！这就浇！',
+  '<span style="font-size:40px">🤧</span><br>暴雪预警发了...你再不浇完来不及了',
+  '<span style="font-size:40px">😵</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！末世真的来了！',
+  '<span style="font-size:40px">🫠</span><br>我服了...浇吧浇吧都给你浇！',
 ];
 
 function updateMsg(html){
   msgBox.innerHTML='<span class="big">'+html+'</span>';
   if(attempts>0&&!done){
-    msgBox.innerHTML+='<span class="sub" style="color:#e17055;font-size:14px;font-weight:bold">已尝试 <b style="font-size:20px">'+attempts+'</b> 次浇水 | 成功率 <b>0%</b> 😈</span>';
+    var pct=Math.min(100,Math.floor(attempts/VICTORY*100));
+    msgBox.innerHTML+='<span class="sub" style="color:#e17055;font-size:14px;font-weight:bold">已尝试 <b style="font-size:20px">'+attempts+'</b> 次 | 囤粮进度 <b style="font-size:20px">'+pct+'%</b></span>';
   }
 }
 
+function updateProgress(){
+  var pct=Math.min(100,Math.floor(attempts/VICTORY*100));
+  progressFill.style.width=pct+'%';
+  progressPct.textContent=pct+'%';
+  // 更新倒计时天数
+  var daysLeft=Math.max(0,7-Math.floor(pct/14.3));
+  countdownDays.textContent=daysLeft;
+  if(pct>=95)countdownDays.parentElement.style.background='linear-gradient(90deg,#ff5252,#ff0000)';
+}
+
 function spawnParticles(x,y){
-  var emojis=['💧','💦','😱','😈','😂','😤','🫠','🤬'];
-  for(var i=0;i<8;i++){
+  var emojis=['💧','💦','😱','😈','😂','😤','🫠','🤬','❄️','🧊','🌨️'];
+  for(var i=0;i<10;i++){
     var p=document.createElement('span');
     p.className='particle';
-    p.textContent=emojis[i];
+    p.textContent=emojis[i%emojis.length];
     p.style.left=(x+(Math.random()-.5)*90)+'px';
     p.style.top=y+'px';
     p.style.animationDuration=(.6+Math.random()*.8)+'s';
@@ -226,34 +400,85 @@ function waterOne(){
   }
 }
 
+function getPhaseTaunt(){
+  if(attempts>=180)return phase4Taunts[Math.floor(Math.random()*phase4Taunts.length)];
+  if(attempts>=150)return phase3Taunts[Math.floor(Math.random()*phase3Taunts.length)];
+  if(attempts>=100)return phase2Taunts[Math.floor(Math.random()*phase2Taunts.length)];
+  return taunts[Math.floor(Math.random()*taunts.length)];
+}
+
 function tryWater(){
   if(done)return;
   attempts++;
+
+  // 🔊 首次点击触发背景故事语音
+  if(!voiceStarted){
+    voiceStarted=true;
+    speak(backstoryText,0.85);
+  }
 
   var rect=btn.getBoundingClientRect();
   spawnParticles(rect.left+rect.width/2,rect.top);
   dodge();
 
-  var t=taunts[Math.floor(Math.random()*taunts.length)].replace('{n}',attempts);
+  var t=getPhaseTaunt().replace('{n}',attempts);
   updateMsg(t);
+  updateProgress();
 
-  if(attempts%4===0){garden.classList.add('shake');setTimeout(function(){garden.classList.remove('shake')},450)}
+  // 🔊 里程碑语音
+  if(attempts>=50&&Math.floor(attempts/10)!==lastMilestone){
+    var m=Math.floor(attempts/10)*10;
+    if(milestoneVoices[m]){
+      lastMilestone=Math.floor(attempts/10);
+      speakMilestone(m);
+    }
+  }
 
-  if(attempts>=18&&attempts<25){
+  // 菜地震动：每5次
+  if(attempts%5===0){
+    garden.classList.add('shake');
+    setTimeout(function(){garden.classList.remove('shake')},450);
+  }
+
+  // ===== 分层阶段 =====
+  if(attempts>=100&&attempts<150){
+    // Phase 2: 偶尔浇一颗，每3次浇1次
+    if(attempts%3===0)waterOne();
+    if(attempts%10===0)updateMsg('<span style="font-size:38px">😤</span><br>极寒迫近...勉强浇了一颗<br>囤粮进度:'+Math.floor(attempts/VICTORY*100)+'%');
+  }else if(attempts>=150&&attempts<180){
+    // Phase 3: 加速，每2次浇1次
     if(attempts%2===0)waterOne();
-    if(attempts%3===0)updateMsg('<span style="font-size:40px">😤</span><br>行吧...浇了一颗<br>但我又跑了！');
-  }else if(attempts>=25){
+    if(attempts%15===0)updateMsg('<span style="font-size:38px">🥶</span><br>暴风雪预警！赶紧抢收！<br>还剩'+(200-attempts)+'次！');
+  }else if(attempts>=180&&attempts<VICTORY){
+    // Phase 4: 几乎每次都浇
+    waterOne();
+    if(attempts%7===0)updateMsg('<span style="font-size:38px">🔥</span><br>末世就在眼前！<br>还差 <b style="color:#ff5252;font-size:30px">'+(VICTORY-attempts)+'</b> 次！');
+  }else if(attempts>=VICTORY){
+    // Victory!
     done=true;
     btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
-    btn.textContent='✅ 浇水完成';
-    btn.style.background='linear-gradient(135deg,#00b894,#55efc4)';
+    btn.textContent='✅ 末世储备完成';
+    btn.style.background='linear-gradient(135deg,#e17055,#ff5252)';
     document.querySelectorAll('.crop').forEach(function(c){
       c.classList.remove('dry');c.classList.add('watered');
       c.querySelector('.status').textContent='✅ 活了';
     });
-    updateMsg('<span style="font-size:40px">🎉</span><br>浇水成功！<br>你点了 <b style="color:#e17055;font-size:28px">'+attempts+'</b> 次终于浇上了！');
+    progressFill.style.width='100%';
+    progressPct.textContent='100%';
+    countdownDays.textContent='0';
+    countdownDays.parentElement.style.background='linear-gradient(90deg,#ff0000,#8b0000)';
+
+    updateMsg('<span style="font-size:40px">🎉</span><br>🔥 末世储备粮全部入库！🔥<br>你点了 <b style="color:#ff5252;font-size:30px">'+attempts+'</b> 次！');
+
+    // 🔊 胜利语音
+    speak('极寒降临时，那些笑你的人，会跪着求你的南瓜和香蕉。你种的哪里是菜，是活下去的希望！',0.85);
+
     setTimeout(function(){
-      winStats.innerHTML='你点了 <b style="color:#e17055;font-size:24px">'+attempts+'</b> 次<br>菜都快被你戳死了 😈<br><br>毅力惊人！水壶认输了...';
+      winStats.innerHTML='<b style="color:#ffeaa7;font-size:16px">🏆 末世生存者</b><br><br>'+
+        '你点了 <b style="color:#ff7675;font-size:26px">'+attempts+'</b> 次<br>'+
+        '每一颗菜都是末世里的救命粮 🥬<br><br>'+
+        '<b style="color:#ffeaa7;font-size:18px">「极寒降临时，那些笑你的人<br>会跪着求你的南瓜和香蕉」</b><br><br>'+
+        '<span style="color:#dfe6e9;font-size:13px">他们笑我疯，我笑他们看不清未来<br>毅力惊人！水壶认输了...</span>';
       winOverlay.classList.add('show');
     },800);
   }
@@ -261,8 +486,9 @@ function tryWater(){
 
 function closeWin(){
   winOverlay.classList.remove('show');
+  speechSynthesis.cancel();
   setTimeout(function(){
-    attempts=0;done=false;
+    attempts=0;done=false;lastMilestone=0;
     btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
     btn.textContent='💧 点击浇水';
     btn.style.background='linear-gradient(135deg,#00b894,#00cec9)';
@@ -270,7 +496,11 @@ function closeWin(){
       c.classList.remove('watered');c.classList.add('dry');
       c.querySelector('.status').textContent='🔥 枯了';
     });
-    updateMsg('🌱 菜地干旱！快浇水！');
+    progressFill.style.width='0%';
+    progressPct.textContent='0%';
+    countdownDays.textContent='7';
+    countdownDays.parentElement.style.background='linear-gradient(90deg,#d63031,#e17055,#d63031)';
+    updateMsg('❄️ 极寒还有7天！赶紧囤粮！');
   },500);
 }
 
@@ -285,7 +515,7 @@ winClose.addEventListener('pointerdown',function(e){
   closeWin();
 });
 
-updateMsg('🌱 菜地干旱！快浇水！');
+updateMsg('❄️ 极寒还有7天！赶紧囤粮！');
 })();
 </script>
 </body>
