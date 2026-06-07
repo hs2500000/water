@@ -254,14 +254,14 @@ const VICTORY=200;
 let attempts=0,done=false,voiceOn=true,voiceStarted=false;
 
 // 🔊 语音播报
-function speak(text,rate){
+function speak(text,rate,pitch){
   if(!voiceOn)return;
   speechSynthesis.cancel();
   var u=new SpeechSynthesisUtterance(text);
   u.lang='zh-CN';
-  u.rate=rate||0.9;
-  u.pitch=1;
-  u.volume=0.9;
+  u.rate=rate||1.05;
+  u.pitch=pitch||1.1;
+  u.volume=1;
   speechSynthesis.speak(u);
 }
 
@@ -279,19 +279,19 @@ voiceToggle.addEventListener('pointerdown',function(e){
 });
 
 // 📖 背景故事（首次点击触发，避开浏览器autoplay限制）
-var backstoryText='他们笑我魔怔种菜。只有我知道，七天后暴雪封城、水电断绝、秩序崩塌。超市货架会被洗劫一空，高楼冻成冰雕。而我种的每一颗菜，都是末世里活下去的希望。';
+var backstoryText='疯了，他们都疯了！哈哈哈哈！他们笑我魔怔种菜？笑我走火入魔？呵，只有我知道——七天！就七天！暴雪会吞没一切！水！电！食物！全没了！超市？早就被抢光了！高楼？全是冰雕！而我的菠菜，我的辣椒，我的茄子，每一颗都是末世里最硬的通货！他们现在笑我愚蠢？到时候跪着求我用一颗白菜换一辆宝马！哼哼哼哼哼！';
 
-// 里程碑语音
+// 里程碑语音 —— 魔性版
 var milestoneVoices={
-  50:'五十次了。他们以为你在玩游戏，但你知道真相。极寒越来越近，继续浇水。',
-  100:'一百次了！暴雪将至，你不能放弃。那些嘲笑你的人，终将明白你的远见。',
-  150:'一百五十次！囤粮进度百分之七十五。极寒降临前，你必须浇完所有菜。',
-  180:'一百八十次！就差一点了！末世降临前，每一颗菜都是救命粮！',
-  190:'一百九十次！你听，暴风雪已经在路上。他们笑你疯，你笑他们看不清未来。'
+  50:'五十次了！五！十！次！你以为我在玩游戏？不！我在为人类文明续命！继续点，不要停！',
+  100:'一百次！一百次啊兄弟！暴雪已经在路上了你听到了吗？呼呼呼，那是死神的风声！继续浇！',
+  150:'一百五十次！囤粮进度百分之七十五！快了快了，极寒降临之前，每一颗菜都是你活下去的资本！',
+  180:'一百八！一百八十次！就差二十次！你闻到了吗？暴风雪的味道！冷！太冷了！快浇！',
+  190:'一百九十次！最后十次！他们笑你疯？哈哈哈哈，等极寒降临那天，他们跪着求你的香蕉和南瓜的时候，你笑！你大声笑！'
 };
 
 function speakMilestone(n){
-  if(milestoneVoices[n])speak(milestoneVoices[n],0.85);
+  if(milestoneVoices[n])speak(milestoneVoices[n],1.15,1.3);
 }
 
 var lastMilestone=0;
@@ -307,46 +307,46 @@ var taunts=[
   '<span style="font-size:40px">🤡</span><br>水壶：我先溜了！',
   '<span style="font-size:40px">👻</span><br>你以为你是闪电侠？',
   '<span style="font-size:40px">😈</span><br>就是不浇！你叫你闺蜜来啊~',
-  '<span style="font-size:40px">😬</span><br>菜：末世快到了...还不浇水？',
-  '<span style="font-size:40px">🥶</span><br>极寒将至！你手抖是因为冷还是气？',
-  '<span style="font-size:40px">🫠</span><br>暴雪要来了！水壶冻住了！',
-  '<span style="font-size:40px">😤</span><br>你越点我越跑！他们笑你疯，你不解释',
-  '<span style="font-size:40px">🥱</span><br>浇太快了，重来~',
-  '<span style="font-size:40px">🙈</span><br>浇不到浇不到~ 就浇不到~',
-  '<span style="font-size:40px">💨</span><br>你追啊！追到了给你浇！',
-  '<span style="font-size:40px">❄️</span><br>暴风雪来了！水都结冰了！',
-  '<span style="font-size:40px">🧊</span><br>冰封中...你的手指还能动？',
-  '<span style="font-size:40px">🌨️</span><br>雪越下越大，菜要冻死了！',
-  '<span style="font-size:40px">😰</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！末世都快到了你还在点？',
-  '<span style="font-size:40px">🔥</span><br>那些笑你的人已经在囤泡面了，你还在浇水？',
-  '<span style="font-size:40px">⏰</span><br>倒计时在走，你的菜还没浇完！'
+  '<span style="font-size:40px">😬</span><br>菜：再不浇老子冻成雪糕了！',
+  '<span style="font-size:40px">🥶</span><br>极寒将至！你手抖是冷还是气？冷气冷气！',
+  '<span style="font-size:40px">🫠</span><br>暴雪预警！水位线结冰！系统瘫痪！',
+  '<span style="font-size:40px">😤</span><br>你越点我越跑！他们笑你疯？你不解释！你冷笑！',
+  '<span style="font-size:40px">🥱</span><br>啊~浇太快了重来~水壶说它困了（打哈欠）',
+  '<span style="font-size:40px">🙈</span><br>浇不到浇不到就浇不到~略略略~',
+  '<span style="font-size:40px">💨</span><br>你追啊！追到了给你浇！追不到你就在雪地里冻着！',
+  '<span style="font-size:40px">❄️</span><br>暴！风！雪！来！了！水全结冰了！全！部！结！冰！',
+  '<span style="font-size:40px">🧊</span><br>冰封中...你的手指头还能动？冻僵了吧？',
+  '<span style="font-size:40px">🌨️</span><br>雪越下越大！菜要冻死了！你忍心吗你！',
+  '<span style="font-size:40px">😰</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！极寒末世都快到了你还在点点点！',
+  '<span style="font-size:40px">🔥</span><br>你闺蜜已经在囤泡面了你还在浇水？格局打开！',
+  '<span style="font-size:40px">⏰</span><br>嘀嗒嘀嗒！倒计时在走菜还没浇完！焦虑吗！'
 ];
 
-// Phase 2 (100-149) 专用嘲讽
+// Phase 2 (100-149) 专用嘲讽 —— 魔性版
 var phase2Taunts=[
-  '<span style="font-size:40px">😟</span><br>一百多次了...你到底图什么？',
-  '<span style="font-size:40px">🤔</span><br>说实话我开始佩服你了...但不浇就是不浇',
-  '<span style="font-size:40px">😬</span><br>你该不会真的相信末世会来吧？',
-  '<span style="font-size:40px">🫤</span><br>好吧好吧...偶尔浇一颗，别太高兴',
-  '<span style="font-size:40px">😮‍💨</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次...你是AI吧？',
+  '<span style="font-size:40px">😟</span><br>一百多次了...你手指不酸吗？不累吗？不吃饭吗？',
+  '<span style="font-size:40px">🤔</span><br>说实话我开始有点佩服你了...但佩服归佩服，不浇就是不浇！',
+  '<span style="font-size:40px">😬</span><br>你该不会真信了末世会来吧？不会吧不会吧？',
+  '<span style="font-size:40px">🫤</span><br>好吧勉强浇一颗...但你不要以为我认输了！并没有！',
+  '<span style="font-size:40px">😮‍💨</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次...你是AI吧？人类不可能这么执着！',
 ];
 
-// Phase 3 (150-179) 专用嘲讽
+// Phase 3 (150-179) 专用嘲讽 —— 魔性版
 var phase3Taunts=[
-  '<span style="font-size:40px">😳</span><br>水壶累了...它说它认输',
-  '<span style="font-size:40px">😩</span><br>你不知道放弃两个字怎么写吗？',
-  '<span style="font-size:40px">🤯</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！你是来真的？',
-  '<span style="font-size:40px">🥵</span><br>暴雪前能浇完吗...我有点慌了',
-  '<span style="font-size:40px">🫡</span><br>我承认你有点东西...但还不够！',
+  '<span style="font-size:40px">😳</span><br>水壶累了...水壶说它这辈子没见过这么犟的人！',
+  '<span style="font-size:40px">😩</span><br>你不知道放弃两个字怎么写吗？！字典翻烂了也找不到吗？！',
+  '<span style="font-size:40px">🤯</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！你是来真的？你要用毅力对抗极寒？！',
+  '<span style="font-size:40px">🥵</span><br>暴雪前能浇完吗...我慌了！我真的慌了！',
+  '<span style="font-size:40px">🫡</span><br>我承认你有点东西...但这点东西够不够对抗末世就不好说了！',
 ];
 
-// Phase 4 (180-199) 专用嘲讽
+// Phase 4 (180-199) 专用嘲讽 —— 魔性版
 var phase4Taunts=[
-  '<span style="font-size:40px">😱</span><br>快到了快到了！别停！',
-  '<span style="font-size:40px">🫨</span><br>水壶：主人我错了！这就浇！',
-  '<span style="font-size:40px">🤧</span><br>暴雪预警发了...你再不浇完来不及了',
-  '<span style="font-size:40px">😵</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！末世真的来了！',
-  '<span style="font-size:40px">🫠</span><br>我服了...浇吧浇吧都给你浇！',
+  '<span style="font-size:40px">😱</span><br>快到了快到了！别停别停！你停了你就是对不起全人类！',
+  '<span style="font-size:40px">🫨</span><br>水壶：主人我错了！这就浇！全都浇！疯狂浇！',
+  '<span style="font-size:40px">🤧</span><br>暴雪预警发了发了！你再不浇完来不及了来不及了！',
+  '<span style="font-size:40px">😵</span><br>第<span style="color:#e17055;font-size:24px">{n}</span>次！末世真的来了来了来了！',
+  '<span style="font-size:40px">🫠</span><br>我服了服了服了！浇吧浇吧都给你浇！你是末世之王！',
 ];
 
 function updateMsg(html){
@@ -414,7 +414,7 @@ function tryWater(){
   // 🔊 首次点击触发背景故事语音
   if(!voiceStarted){
     voiceStarted=true;
-    speak(backstoryText,0.85);
+    speak(backstoryText,1.0,1.15);
   }
 
   var rect=btn.getBoundingClientRect();
@@ -444,21 +444,21 @@ function tryWater(){
   if(attempts>=100&&attempts<150){
     // Phase 2: 偶尔浇一颗，每3次浇1次
     if(attempts%3===0)waterOne();
-    if(attempts%10===0)updateMsg('<span style="font-size:38px">😤</span><br>极寒迫近...勉强浇了一颗<br>囤粮进度:'+Math.floor(attempts/VICTORY*100)+'%');
+    if(attempts%10===0)updateMsg('<span style="font-size:38px">😤</span><br>极寒迫近...勉强施舍你一颗<br>囤粮进度:'+Math.floor(attempts/VICTORY*100)+'% 别得意！');
   }else if(attempts>=150&&attempts<180){
     // Phase 3: 加速，每2次浇1次
     if(attempts%2===0)waterOne();
-    if(attempts%15===0)updateMsg('<span style="font-size:38px">🥶</span><br>暴风雪预警！赶紧抢收！<br>还剩'+(200-attempts)+'次！');
+    if(attempts%15===0)updateMsg('<span style="font-size:38px">🥶</span><br>暴风雪预警！暴风雪预警！<br>还剩 <b style="color:#ff5252;font-size:28px">'+(200-attempts)+'</b> 次！给我往死里点！');
   }else if(attempts>=180&&attempts<VICTORY){
     // Phase 4: 几乎每次都浇
     waterOne();
-    if(attempts%7===0)updateMsg('<span style="font-size:38px">🔥</span><br>末世就在眼前！<br>还差 <b style="color:#ff5252;font-size:30px">'+(VICTORY-attempts)+'</b> 次！');
+    if(attempts%7===0)updateMsg('<span style="font-size:38px">🔥</span><br>末世就在眼前！就在眼前！<br>还差 <b style="color:#ff5252;font-size:30px">'+(VICTORY-attempts)+'</b> 次！！点它！！！');
   }else if(attempts>=VICTORY){
     // Victory!
     done=true;
     btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
-    btn.textContent='✅ 末世储备完成';
-    btn.style.background='linear-gradient(135deg,#e17055,#ff5252)';
+    btn.textContent='🔥 末世之王！储备完成！';
+    btn.style.background='linear-gradient(135deg,#ff0000,#ff5252)';
     document.querySelectorAll('.crop').forEach(function(c){
       c.classList.remove('dry');c.classList.add('watered');
       c.querySelector('.status').textContent='✅ 活了';
@@ -468,10 +468,10 @@ function tryWater(){
     countdownDays.textContent='0';
     countdownDays.parentElement.style.background='linear-gradient(90deg,#ff0000,#8b0000)';
 
-    updateMsg('<span style="font-size:40px">🎉</span><br>🔥 末世储备粮全部入库！🔥<br>你点了 <b style="color:#ff5252;font-size:30px">'+attempts+'</b> 次！');
+    updateMsg('<span style="font-size:40px">🎉</span><br>🔥 末世储备粮全部入库！！🔥<br>你点了 <b style="color:#ff5252;font-size:30px">'+attempts+'</b> 次！你是真正的末世之王！！');
 
     // 🔊 胜利语音
-    speak('极寒降临时，那些笑你的人，会跪着求你的南瓜和香蕉。你种的哪里是菜，是活下去的希望！',0.85);
+    speak('成了！末世储备粮全部入库！哈哈哈哈！极寒降临时，那些笑你的人会跪在雪地里，求你的南瓜！求你的香蕉！求你的菠菜！而你，你就是末世之王！你种的哪里是菜？是希望！是货币！是活下去的权力！',1.1,1.25);
 
     setTimeout(function(){
       winStats.innerHTML='<b style="color:#ffeaa7;font-size:16px">🏆 末世生存者</b><br><br>'+
