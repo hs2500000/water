@@ -105,6 +105,45 @@ body{
 }
 .garden-bottom{text-align:center;font-size:12px;color:#fff;font-weight:bold;margin-top:-8px;margin-bottom:4px;text-shadow:0 0 10px rgba(255,82,82,.6);letter-spacing:1px}
 
+/* 🏪 物资储备架 */
+.storage-section{position:relative;z-index:2;width:100%;margin-bottom:4px}
+.storage-title{font-size:10px;color:#ffeaa7;font-weight:bold;text-align:center;margin-bottom:3px;text-shadow:0 0 6px rgba(255,234,167,.4);letter-spacing:1px}
+.storage-shelf{
+  display:flex;flex-wrap:wrap;gap:4px;justify-content:center;
+  background:rgba(0,0,0,.25);border-radius:8px;padding:6px 8px;
+  border:1px solid rgba(255,255,255,.08);
+  min-height:36px;align-items:center;
+}
+.storage-slot{
+  font-size:20px;opacity:.15;transition:all .5s ease;
+  filter:grayscale(1) brightness(.5);
+}
+.storage-slot.filled{
+  opacity:1;filter:none;
+  animation:slotPop .4s ease;
+}
+@keyframes slotPop{0%{transform:scale(0)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+
+/* 🎨 背景装饰 - 丰收物资 */
+.floating-deco{
+  position:fixed;pointer-events:none;z-index:3;
+  font-size:28px;opacity:0;transition:opacity .6s ease;
+  animation:decoFloat 3s ease-in-out infinite;
+}
+.floating-deco.visible{opacity:.7}
+@keyframes decoFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-15px) rotate(5deg)}}
+
+/* 🔘 按钮进化态 */
+.water-btn.phase2{transform:translate(-50%,-50%) scale(1.1)!important;background:linear-gradient(135deg,#e17055,#fdcb6e)!important;box-shadow:0 8px 30px rgba(225,112,85,.5)!important}
+.water-btn.phase3{transform:translate(-50%,-50%) scale(1.2)!important;background:linear-gradient(135deg,#d63031,#e17055)!important;box-shadow:0 10px 35px rgba(214,48,49,.6)!important;animation:btnPulse3 .8s ease-in-out infinite}
+@keyframes btnPulse3{0%,100%{box-shadow:0 10px 35px rgba(214,48,49,.6)}50%{box-shadow:0 15px 45px rgba(214,48,49,.9)}}
+.water-btn.phase4{transform:translate(-50%,-50%) scale(1.3)!important;background:linear-gradient(135deg,#c0392b,#e74c3c)!important;box-shadow:0 12px 40px rgba(192,57,43,.7)!important;animation:btnPulse4 .5s ease-in-out infinite}
+@keyframes btnPulse4{0%,100%{box-shadow:0 12px 40px rgba(192,57,43,.7)}50%{box-shadow:0 20px 55px rgba(192,57,43,1)}}
+.water-btn.phase5{transform:translate(-50%,-50%) scale(1.4)!important;background:linear-gradient(135deg,#8b0000,#ff0000)!important;box-shadow:0 15px 50px rgba(139,0,0,.8)!important;animation:btnPulse5 .3s ease-in-out infinite}
+@keyframes btnPulse5{0%,100%{box-shadow:0 15px 50px rgba(139,0,0,.8);transform:translate(-50%,-50%) scale(1.4)}50%{box-shadow:0 25px 65px rgba(255,0,0,1);transform:translate(-50%,-50%) scale(1.45)}}
+.water-btn.phase6{transform:translate(-50%,-50%) scale(1.5)!important;background:linear-gradient(135deg,#4a0000,#8b0000)!important;box-shadow:0 20px 60px rgba(74,0,0,.9)!important;animation:btnShake .2s ease-in-out infinite}
+@keyframes btnShake{0%,100%{transform:translate(-50%,-50%) scale(1.5)}25%{transform:translate(-48%,-52%) scale(1.52)}50%{transform:translate(-52%,-48%) scale(1.48)}75%{transform:translate(-49%,-51%) scale(1.51)}}
+
 /* 📊 进度条 */
 .progress-wrap{width:100%;position:relative;z-index:2;margin-bottom:2px}
 .progress-label{display:flex;justify-content:space-between;font-size:10px;color:#5D4037;font-weight:bold;margin-bottom:2px}
@@ -208,6 +247,19 @@ body{
   </div>
   <div class="garden-bottom">🏠 王者农场 · 末世物资储备站</div>
 
+  <div class="storage-section">
+    <div class="storage-title">📦 物资储备库</div>
+    <div class="storage-shelf" id="storageShelf">
+      <span class="storage-slot">🥬</span><span class="storage-slot">🌶️</span><span class="storage-slot">🍆</span>
+      <span class="storage-slot">🌽</span><span class="storage-slot">🍅</span><span class="storage-slot">🥕</span>
+      <span class="storage-slot">🎃</span><span class="storage-slot">🍌</span><span class="storage-slot">🧄</span>
+      <span class="storage-slot">🧅</span><span class="storage-slot">🥔</span><span class="storage-slot">🍠</span>
+      <span class="storage-slot">🥒</span><span class="storage-slot">🍄</span><span class="storage-slot">🫘</span>
+      <span class="storage-slot">🥜</span><span class="storage-slot">🍚</span><span class="storage-slot">🫒</span>
+      <span class="storage-slot">🥩</span><span class="storage-slot">🧀</span><span class="storage-slot">🥚</span>
+    </div>
+  </div>
+
   <div class="progress-wrap">
     <div class="progress-label"><span>❄️ 囤粮进度</span><span id="progressPct">0%</span></div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -223,6 +275,20 @@ body{
 </div>
 
 <div id="particles" class="particles"></div>
+
+<!-- 浮动装饰：丰收物资 -->
+<div class="floating-deco" id="deco1" style="top:5%;left:3%">🎃</div>
+<div class="floating-deco" id="deco2" style="top:10%;right:5%">🍌</div>
+<div class="floating-deco" id="deco3" style="top:25%;left:2%">🧄</div>
+<div class="floating-deco" id="deco4" style="top:20%;right:3%">🥔</div>
+<div class="floating-deco" id="deco5" style="bottom:35%;left:4%">🍠</div>
+<div class="floating-deco" id="deco6" style="bottom:40%;right:5%">🧅</div>
+<div class="floating-deco" id="deco7" style="top:15%;left:6%">🥩</div>
+<div class="floating-deco" id="deco8" style="bottom:30%;right:4%">🍚</div>
+<div class="floating-deco" id="deco9" style="top:8%;left:88%">🧀</div>
+<div class="floating-deco" id="deco10" style="bottom:20%;left:90%">🥚</div>
+<div class="floating-deco" id="deco11" style="top:45%;left:1%">🫘</div>
+<div class="floating-deco" id="deco12" style="top:50%;right:1%">🥜</div>
 
 <div class="win-overlay" id="winOverlay">
   <div class="win-dialog">
@@ -249,6 +315,9 @@ const progressFill=document.getElementById('progressFill');
 const progressPct=document.getElementById('progressPct');
 const countdownDays=document.getElementById('countdownDays');
 const voiceToggle=document.getElementById('voiceToggle');
+const storageShelf=document.getElementById('storageShelf');
+const storageSlots=storageShelf.querySelectorAll('.storage-slot');
+const floatingDecos=document.querySelectorAll('.floating-deco');
 
 const VICTORY=200;
 let attempts=0,done=false,voiceOn=true,voiceStarted=false;
@@ -281,13 +350,15 @@ voiceToggle.addEventListener('pointerdown',function(e){
 // 📖 背景故事 —— 究极魔怔版
 var backstoryText='疯了！！全都疯了！！哈哈哈哈哈哈！！他们笑我魔怔？！笑我种菜种到走火入魔？！呵！呵呵呵！哈哈哈哈！只有我知道——七天！！就七天！！暴雪吞没一切！！水！！电！！食物！！全没！！超市？？早被抢光了！！高楼？？全是冰雕！！而我的菠菜、我的辣椒、我的茄子！！每一颗都是末世里最硬最硬的通货！！他们现在笑我愚蠢？？到时候跪着求我用一颗白菜换一辆宝马！！换一辆宝马！！哼哼哼哼哼哼哼！！';
 
-// 里程碑语音 —— 究极魔怔版（更快的语速和音调）
+// 里程碑语音 —— 整数关口版
 var milestoneVoices={
-  50:'五十次了！！五！十！次！你以为我在玩游戏？！不！！不不不！！我在为人类文明续命！！继续点！！不要停！！手指不要停！！',
+  20:'二十次！！二！十！次！嘲笑你的人还在笑！！但你的囤粮之路正式开始了！！点！！继续点！！',
+  50:'五十次！！一半了！！一半了懂吗！！他们以为你疯了！！你冷笑！！暴雪会证明谁才是对的！！',
+  80:'八十次！！八！十！次！！囤粮进度近半！！超市货架已经空了！！你闻到了吗！！暴风雪的味道越来越浓了！！',
   100:'一百次！！一百次啊兄弟！！暴雪已经在路上了你听到了吗听到了吗！！呼呼呼呼呼！！那是死神的风声！！死神来了！！继续浇！！往死里浇！！',
+  120:'一百二十次！！进度百分之六十！！你的手指在燃烧！！但暴雪更冷！！继续！！不要停！！',
   150:'一百五十次！！囤粮进度百分之七十五！！快了快了快了！！极寒降临之前，每一颗菜都是你活下去的资本！！活下去的资本！！懂？！',
-  180:'一百八！！一百八十次！！就差二十次！！二十次！！你闻到了吗闻到了吗！！暴风雪的味道！！冷！！太冷了！！手指冻僵了也要点！！快浇！！',
-  190:'一百九十次！！最后十次！！十次！！他们笑你疯？！哈哈哈哈哈哈哈！！等极寒降临那天！！他们跪在雪地里求你的香蕉求你的南瓜的时候！！你笑！！你大声笑！！往死里笑！！哈哈哈哈！！'
+  180:'一百八！！一百八十次！！就差二十次！！二十次！！你闻到了吗闻到了吗！！暴风雪的味道！！冷！！太冷了！！手指冻僵了也要点！！快浇！！'
 };
 
 function speakMilestone(n){
@@ -400,6 +471,40 @@ function waterOne(){
   }
 }
 
+// 🔘 按钮随进度进化：变大→变红→脉动→震动
+function updateButton(){
+  btn.className='water-btn';
+  var pct=attempts/VICTORY;
+  if(pct>=0.9)btn.classList.add('phase6');        // 180-199: 最大+暗红+抖动
+  else if(pct>=0.75)btn.classList.add('phase5');   // 150-179: 超大+血红+急速脉动
+  else if(pct>=0.5)btn.classList.add('phase4');    // 100-149: 大+深红+强脉动
+  else if(pct>=0.25)btn.classList.add('phase3');   // 50-99: 中+红+脉动
+  else if(pct>=0.1)btn.classList.add('phase2');    // 20-49: 略大+橙色
+  // 0-19: 默认绿色，不改
+}
+
+// 📦 存储架：随进度解锁物资
+function updateStorage(){
+  var pct=attempts/VICTORY;
+  var total=storageSlots.length;
+  var toFill=Math.floor(pct*total);
+  storageSlots.forEach(function(slot,i){
+    if(i<toFill)slot.classList.add('filled');
+    else slot.classList.remove('filled');
+  });
+}
+
+// 🎨 浮动装饰：随进度逐个出现
+function updateDecorations(){
+  var pct=attempts/VICTORY;
+  var total=floatingDecos.length;
+  var toShow=Math.floor(pct*total);
+  floatingDecos.forEach(function(deco,i){
+    if(i<toShow)deco.classList.add('visible');
+    else deco.classList.remove('visible');
+  });
+}
+
 function getPhaseTaunt(){
   if(attempts>=180)return phase4Taunts[Math.floor(Math.random()*phase4Taunts.length)];
   if(attempts>=150)return phase3Taunts[Math.floor(Math.random()*phase3Taunts.length)];
@@ -426,13 +531,20 @@ function tryWater(){
   updateProgress();
 
   // 🔊 里程碑语音
-  if(attempts>=50&&Math.floor(attempts/10)!==lastMilestone){
+  if(attempts>=20&&Math.floor(attempts/10)!==lastMilestone){
     var m=Math.floor(attempts/10)*10;
     if(milestoneVoices[m]){
       lastMilestone=Math.floor(attempts/10);
       speakMilestone(m);
     }
   }
+
+  // 🔘 按钮进化
+  updateButton();
+  // 📦 存储架更新
+  updateStorage();
+  // 🎨 浮动装饰
+  updateDecorations();
 
   // 菜地震动：每5次
   if(attempts%5===0){
@@ -456,6 +568,7 @@ function tryWater(){
   }else if(attempts>=VICTORY){
     // Victory!
     done=true;
+    btn.className='water-btn'; // 清除进化态
     btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
     btn.textContent='🔥🔥 末世之王！！人类最后的希望！！ 🔥🔥';
     btn.style.background='linear-gradient(135deg,#ff0000,#ff5252)';
@@ -467,6 +580,10 @@ function tryWater(){
     progressPct.textContent='100%';
     countdownDays.textContent='0';
     countdownDays.parentElement.style.background='linear-gradient(90deg,#ff0000,#8b0000)';
+    // 存储架全满
+    storageSlots.forEach(function(s){s.classList.add('filled')});
+    // 浮动装饰全显
+    floatingDecos.forEach(function(d){d.classList.add('visible')});
 
     updateMsg('<span style="font-size:40px">🎉</span><br>🔥 末世储备粮全部入库！！🔥<br>你点了 <b style="color:#ff5252;font-size:30px">'+attempts+'</b> 次！你是真正的末世之王！！');
 
@@ -492,6 +609,7 @@ function closeWin(){
     btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
     btn.textContent='💧 点击浇水';
     btn.style.background='linear-gradient(135deg,#00b894,#00cec9)';
+    btn.className='water-btn'; // 重置按钮进化态
     document.querySelectorAll('.crop').forEach(function(c){
       c.classList.remove('watered');c.classList.add('dry');
       c.querySelector('.status').textContent='🔥 枯了';
@@ -500,6 +618,11 @@ function closeWin(){
     progressPct.textContent='0%';
     countdownDays.textContent='7';
     countdownDays.parentElement.style.background='linear-gradient(90deg,#d63031,#e17055,#d63031)';
+    // 重置按钮进化态
+    btn.className='water-btn';
+    // 重置存储架和装饰
+    storageSlots.forEach(function(s){s.classList.remove('filled')});
+    floatingDecos.forEach(function(d){d.classList.remove('visible')});
     updateMsg('❄️ 极寒还有7天！赶紧囤粮！');
   },500);
 }
