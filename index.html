@@ -343,20 +343,21 @@ const VICTORY=200;
 let attempts=0,done=false,voiceOn=true,voiceStarted=false;
 
 // 🔊 音频播放（手机/电脑通用）
-// 关键：iOS/微信要求Audio在用户手势内创建并play，不能预加载
+// iOS/微信：Audio必须在用户手势内创建，play在同步调用栈
 var currentAudio=null;
 function playAudio(name){
   if(!voiceOn)return;
-  // 停掉上一个
-  if(currentAudio){currentAudio.pause();currentAudio=null;}
-  // 每次都新创建（iOS要求Audio创建在用户交互的同步调用栈中）
-  var a=new Audio('audio/'+name+'.wav');
+  if(currentAudio){currentAudio.pause();currentAudio.src='';currentAudio=null;}
+  var a=new Audio();
+  a.src='audio/'+name+'.mp3';
   currentAudio=a;
-  a.play().catch(function(e){
-    // 部分浏览器需要先加载再播
-    a.load();
-    setTimeout(function(){a.play().catch(function(){})},50);
-  });
+  // 双保险：先试立即播，失败则等loaded再播
+  var played=false;
+  var doPlay=function(){if(!played){played=true;a.play().catch(function(){})}};
+  a.addEventListener('canplay',doPlay,{once:true});
+  a.load();
+  // 立即尝试（缓存命中时可直接播）
+  a.play().catch(function(){});
 }
 
 voiceToggle.addEventListener('pointerdown',function(e){
